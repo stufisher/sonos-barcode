@@ -1,0 +1,9 @@
+evdev
+fastapi
+fastapi-socketio
+mysql-connector-python==8.0.29
+pydantic[dotenv]
+soco
+sqlalacchemy
+uvicorn
+uvicorn[standard]
