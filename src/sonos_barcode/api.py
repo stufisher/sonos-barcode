@@ -115,6 +115,12 @@ def update_status(status: schema.StatusChange) -> schema.Status:
             if visible_zone.player_name in settings.zones_to_join:
                 visible_zone.join(zone_player)
 
+    if status.volume:
+        zone_player.volume = status.volume
+    
+    if status.group_volume:
+        zone_player.group.volume = status.group_volume
+
     return crud.get_status(zone_player)
 
 

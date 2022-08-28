@@ -26,6 +26,9 @@ class Status(BaseModel):
     position: str
     duration: str
     transport_state: str
+    volume: int
+    group_volume: int
+    members: int
 
 
 class StatusChange(BaseModel):
@@ -35,6 +38,8 @@ class StatusChange(BaseModel):
     next: Optional[bool]
     isolate: Optional[bool]
     join: Optional[bool]
+    volume: Optional[int]
+    group_volume: Optional[int]
 
 
 class EANAlbumNew(BaseModel):

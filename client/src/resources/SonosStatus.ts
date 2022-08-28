@@ -10,13 +10,15 @@ export class StatusResource extends Resource {
   position: string;
   duration: string;
   transport_state: string;
+  volume: number;
+  group_volume: number;
+  members: number;
 
   static getEndpointExtra(): EndpointExtraOptions {
     return {
       pollFrequency: 1000,
     };
   }
-
 
   pk() {
     return this.player_name;

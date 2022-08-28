@@ -21,6 +21,9 @@ def get_status(zp: SoCo):
         "uri": track["uri"],
         "position": track["position"],
         "duration": track["duration"],
+        "volume": zp.volume,
+        "group_volume": zp.group.volume,
+        "members": len(zp.group.members)
     }
 
 
