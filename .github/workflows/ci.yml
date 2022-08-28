@@ -4,6 +4,7 @@ on: [push]
 
 jobs:
   lint-server:
+    name: flake8 and black
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -19,6 +20,7 @@ jobs:
           src: "./src"
 
   lint-client:
+    name: eslint and prettier
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -52,7 +54,7 @@ jobs:
       - name: Build a binary wheel and a source tarball
         run: |
           cd client
-          npm install && npm run build
+          CI=false npm install && npm run build
           mv build ../src/sonos_barcode/dist
           cd ../
           python setup.py sdist bdist_wheel
