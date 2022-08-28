@@ -2,7 +2,11 @@ import { Button } from "@mui/material";
 import { Box, Stack } from "@mui/system";
 import { useState } from "react";
 
-export default function AZ(props: any) {
+interface IAZ {
+ onChange: (az: string) => void;
+}
+
+export default function AZ(props: IAZ) {
   const [currentFirst, setCurrentFirst] = useState<number>(0);
   const [currentSecond, setCurrentSecond] = useState<number>(0);
 

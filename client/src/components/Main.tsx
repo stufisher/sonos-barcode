@@ -11,7 +11,7 @@ import Status from "./Status";
 import Barcode from "./Barcode";
 import Selector from "./Selector";
 
-export default function Main(props: any) {
+export default function Main() {
   const [currentBarcode, setCurrentBarcode] = useState<string>("");
   const [selectAlbum, setSelectAlbum] = useState<boolean>(false);
   const { fetch } = useController();

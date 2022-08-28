@@ -5,7 +5,12 @@ import ClearIcon from "@mui/icons-material/Clear";
 
 import { ArtistsResource } from "../resources/SonosArtists";
 
-export default function Artists(props: any) {
+interface IArtists {
+  searchTerm: string;
+  selectArtist: (artist: string) => void;
+}
+
+export default function Artists(props: IArtists) {
   const [currentArtist, setCurrentArtist] = useState<string>("");
   const artists = useSuspense(ArtistsResource.list(), {
     search_term: props.searchTerm,
