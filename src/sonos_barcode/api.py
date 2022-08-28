@@ -2,9 +2,8 @@ import os
 import random
 import string
 from typing import Optional, Generic, TypeVar, List
-import asyncio
+# import asyncio
 
-# import evdev
 from fastapi import FastAPI, APIRouter, Depends, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_socketio import SocketManager
@@ -14,6 +13,11 @@ from soco.music_library import MusicLibrary
 from starlette.responses import RedirectResponse
 from starlette.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
+
+try:
+    import evdev
+except ImportError:
+    evdev = None
 
 from .settings import settings
 from .db import SessionLocal
@@ -58,6 +62,7 @@ async def reader():
     if not device:
         raise RuntimeError(f"Couldnt find input device: {settings.device_name}")
 
+    current_barcode = ""
     while True:
         for event in device.read_loop():
             if event.type == evdev.ecodes.EV_KEY and event.value == 1:
