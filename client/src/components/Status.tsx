@@ -45,7 +45,7 @@ export default function Status(props: IStatus) {
               </ListItem>
             )}
 
-            <ListItem style={{ fontSize: "3rem" }}>
+            <ListItem>
               <IconButton
                 size="large"
                 onClick={(e) =>

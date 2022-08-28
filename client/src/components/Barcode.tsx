@@ -7,11 +7,6 @@ interface IBarcode {
 }
 
 export default function Barcode(props: IBarcode) {
-  useEffect(() => {
-    console.log("Remounting Barcode")
-  }, [])
-
-  console.log("BARCODE current barcode", props.barcode)
   useSuspense(EANResource.detail(), {
     barcode: props.barcode,
   });

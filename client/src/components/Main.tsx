@@ -11,7 +11,6 @@ export default function Main(props: any) {
   const { fetch } = useController();
 
   function onSave(album: string) {
-    console.log("save", album, currentBarcode);
     fetch(
       EANResource.create(),
       {},
@@ -20,7 +19,6 @@ export default function Main(props: any) {
         entity: album,
       }
     ).then(() => {
-        console.log("saved", currentBarcode)
         setCurrentBarcode("")
     });
   }
@@ -32,8 +30,6 @@ export default function Main(props: any) {
       <p>An error occured</p>
     );
   }
-
-  console.log("main render")
 
   return (
     <div>
