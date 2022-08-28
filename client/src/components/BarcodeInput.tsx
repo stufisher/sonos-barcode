@@ -9,22 +9,28 @@ const socket = io("http://localhost:8001", {
   path: "/ws/socket.io",
 });
 
-function debounce(func, wait) {
-  let timeout;
-  return function () {
+function debounce(func: Function, wait: number) {
+  let timeout: ReturnType<typeof setTimeout> | null;
+  return function (this: void) {
     const context = this;
     const args = arguments;
     const later = function () {
       timeout = null;
       func.apply(context, args);
     };
-    clearTimeout(timeout);
+    if (timeout) clearTimeout(timeout);
     timeout = setTimeout(later, wait);
   };
 }
 
-export default function BarcodeInput(props) {
-  const inputRef = useRef();
+interface IBarcodeInput {
+  barcode: string;
+  onChange: (barcode: string) => void;
+  children?: React.ReactNode
+}
+
+export default function BarcodeInput(props: IBarcodeInput) {
+  const inputRef = useRef<HTMLInputElement | null>();
   const [isConnected, setIsConnected] = useState(socket.connected);
 
   useEffect(() => {
@@ -37,7 +43,7 @@ export default function BarcodeInput(props) {
     });
 
     socket.on("barcode", (barcode) => {
-      inputRef.current.value = barcode;
+      if (inputRef.current) inputRef.current.value = barcode;
       props.onChange(barcode);
     });
 
@@ -49,12 +55,13 @@ export default function BarcodeInput(props) {
   }, [props.onChange]);
 
   useEffect(() => {
-    inputRef.current.value = props.barcode;
+    if (inputRef.current) inputRef.current.value = props.barcode;
   }, [props.barcode]);
 
   const onChange = useCallback(
-    (event) => {
-      props.onChange(event.target.value);
+    (event: Event) => {
+      const target = event.target as HTMLInputElement
+      if (target) props.onChange(target.value);
     },
     [props.onChange]
   );
