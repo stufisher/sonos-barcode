@@ -1,3 +1,5 @@
+import random
+import string
 from typing import Optional, Generic, TypeVar, List
 import asyncio
 
@@ -139,6 +141,15 @@ def get_albums(artist: str) -> Paged[schema.Album]:
 
 @router.post("/albums")
 def play_album(album: schema.PlayAlbum) -> schema.PlayAlbum:
+    if album.item_id == "random":
+        letter = random.choice(string.ascii_lowercase)
+        albums = music_library.get_albums(search_term=letter, complete_result=True)
+        try:
+            album_dict = random.choice(albums).to_dict()
+            album.item_id = album_dict["item_id"]
+        except IndexError:
+            raise HTTPException(status_code=400, detail="Couldnt load random album")
+
     crud.play_album(zone_player, music_library, album.item_id)
     return {"item_id": album.item_id}
 

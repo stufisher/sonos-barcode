@@ -5,6 +5,7 @@ import { AlbumsResource } from "../resources/SonosAlbums";
 import { NetworkErrorBoundary, useController, NetworkError } from "rest-hooks";
 import { IconButton } from "@mui/material";
 import AlbumIcon from "@mui/icons-material/Album";
+import ShuffleIcon from '@mui/icons-material/Shuffle';
 
 import Status from "./Status";
 import Barcode from "./Barcode";
@@ -52,6 +53,9 @@ export default function Main(props: any) {
       <BarcodeInput onChange={setCurrentBarcode} barcode={currentBarcode}>
         <IconButton onClick={() => setSelectAlbum(!selectAlbum)}>
           <AlbumIcon />
+        </IconButton>
+        <IconButton onClick={() => loadAlbum("random")}>
+          <ShuffleIcon />
         </IconButton>
       </BarcodeInput>
       {selectAlbum && <Selector onSave={loadAlbum} />}
