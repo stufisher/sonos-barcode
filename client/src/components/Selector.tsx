@@ -4,7 +4,7 @@ import Artists from "./Artists";
 import Albums from "./Albums";
 
 interface ISelector {
-  onSave: (album: string) => void
+  onSave: (album: string) => void;
 }
 
 export default function Selector(props: ISelector) {

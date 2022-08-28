@@ -1,6 +1,6 @@
 import { Container, CssBaseline, ThemeProvider } from "@mui/material";
 
-import theme from './theme'
+import theme from "./theme";
 import Main from "./components/Main";
 
 function App() {

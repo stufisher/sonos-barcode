@@ -26,7 +26,7 @@ function debounce(func: Function, wait: number) {
 interface IBarcodeInput {
   barcode: string;
   onChange: (barcode: string) => void;
-  children?: React.ReactNode
+  children?: React.ReactNode;
 }
 
 export default function BarcodeInput(props: IBarcodeInput) {
@@ -60,7 +60,7 @@ export default function BarcodeInput(props: IBarcodeInput) {
 
   const onChange = useCallback(
     (event: Event) => {
-      const target = event.target as HTMLInputElement
+      const target = event.target as HTMLInputElement;
       if (target) props.onChange(target.value);
     },
     [props.onChange]

@@ -5,7 +5,7 @@ import { AlbumsResource } from "../resources/SonosAlbums";
 import { NetworkErrorBoundary, useController, NetworkError } from "rest-hooks";
 import { IconButton } from "@mui/material";
 import AlbumIcon from "@mui/icons-material/Album";
-import ShuffleIcon from '@mui/icons-material/Shuffle';
+import ShuffleIcon from "@mui/icons-material/Shuffle";
 
 import Status from "./Status";
 import Barcode from "./Barcode";

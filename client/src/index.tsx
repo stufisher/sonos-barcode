@@ -1,13 +1,13 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import App from './App';
-import { CacheProvider } from 'rest-hooks';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import { CacheProvider } from "rest-hooks";
 
-const root = ReactDOM.createRoot(document.getElementById('root') as Element);
+const root = ReactDOM.createRoot(document.getElementById("root") as Element);
 root.render(
   <React.StrictMode>
     <CacheProvider>
-    <App />
+      <App />
     </CacheProvider>
   </React.StrictMode>
 );

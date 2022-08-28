@@ -10,7 +10,6 @@ import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import { StatusResource } from "../resources/SonosStatus";
 
-
 export default function Status() {
   const status = useSuspense(StatusResource.detail(), {});
   const { fetch } = useController();

@@ -24,7 +24,11 @@ export default function Artists(props: IArtists) {
             key={currentArtist}
             selected={true}
             secondaryAction={
-              <IconButton edge="end" aria-label="clear" onClick={() => setCurrentArtist("")}>
+              <IconButton
+                edge="end"
+                aria-label="clear"
+                onClick={() => setCurrentArtist("")}
+              >
                 <ClearIcon />
               </IconButton>
             }

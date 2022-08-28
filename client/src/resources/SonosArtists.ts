@@ -2,7 +2,7 @@ import { Resource } from "@rest-hooks/rest";
 
 export class ArtistsResource extends Resource {
   readonly item_id: string;
-  readonly title: string
+  readonly title: string;
 
   static list<T extends typeof Resource>(this: T) {
     return super.list().extend({
