@@ -8,8 +8,8 @@ interface ISelector {
 }
 
 export default function Selector(props: ISelector) {
-  const [searchTerm, setSearchTerm] = useState<string>("Ar");
-  const [selectedArtist, setSelectedArtist] = useState<string>("Ar");
+  const [searchTerm, setSearchTerm] = useState<string>("Aa");
+  const [selectedArtist, setSelectedArtist] = useState<string>("Aa");
 
   return (
     <div>

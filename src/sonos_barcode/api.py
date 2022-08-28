@@ -118,8 +118,17 @@ def update_status(status: schema.StatusChange) -> schema.Status:
 
 @router.get("/artists", response_model=schema.paginated(schema.Artist))
 def get_artists(search_term: str) -> Paged[schema.Artist]:
-    artists = music_library.get_album_artists(search_term=search_term)
-    return {"total": len(artists), "results": [artist.to_dict() for artist in artists]}
+    artists = music_library.get_album_artists(
+        search_term=search_term, complete_result=True
+    )
+    return {
+        "total": len(artists),
+        "results": [
+            artist.to_dict()
+            for artist in artists
+            if artist.title.lower().startswith(search_term.lower())
+        ],
+    }
 
 
 @router.get("/albums", response_model=schema.paginated(schema.Album))
