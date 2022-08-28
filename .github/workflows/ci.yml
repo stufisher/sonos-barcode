@@ -54,7 +54,7 @@ jobs:
       - name: Build a binary wheel and a source tarball
         run: |
           cd client
-          CI=false npm install && npm run build
+          npm install && npm run build
           mv build ../src/sonos_barcode/dist
           cd ../
           python setup.py sdist bdist_wheel

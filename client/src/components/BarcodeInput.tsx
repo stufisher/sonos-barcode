@@ -31,6 +31,7 @@ interface IBarcodeInput {
 }
 
 export default function BarcodeInput(props: IBarcodeInput) {
+  const { barcode, onChange, children } = props;
   const inputRef = useRef<HTMLInputElement | null>();
   const [isConnected, setIsConnected] = useState(socket.connected);
 
@@ -45,7 +46,7 @@ export default function BarcodeInput(props: IBarcodeInput) {
 
     socket.on("barcode", (barcode) => {
       if (inputRef.current) inputRef.current.value = barcode;
-      props.onChange(barcode);
+      onChange(barcode);
     });
 
     return () => {
@@ -53,25 +54,25 @@ export default function BarcodeInput(props: IBarcodeInput) {
       socket.off("disconnect");
       socket.off("barcode");
     };
-  }, [props.onChange]);
+  }, [onChange]);
 
   useEffect(() => {
-    if (inputRef.current) inputRef.current.value = props.barcode;
-  }, [props.barcode]);
+    if (inputRef.current) inputRef.current.value = barcode;
+  }, [barcode]);
 
-  const onChange = useCallback(
+  const change = useCallback(
     (event: Event) => {
       const target = event.target as HTMLInputElement;
-      if (target) props.onChange(target.value);
+      if (target) onChange(target.value);
     },
-    [props.onChange]
+    [onChange]
   );
 
   const onClear = useCallback(() => {
-    props.onChange("");
-  }, [props.onChange]);
+    onChange("");
+  }, [onChange]);
 
-  const debouncedOnChange = useMemo(() => debounce(onChange, 1000), [onChange]);
+  const debouncedOnChange = useMemo(() => debounce(change, 1000), [change]);
 
   return (
     <Box my={1}>
@@ -83,7 +84,7 @@ export default function BarcodeInput(props: IBarcodeInput) {
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">
-              {props.barcode && (
+              {barcode && (
                 <IconButton onClick={onClear}>
                   <ClearIcon />
                 </IconButton>
@@ -93,7 +94,7 @@ export default function BarcodeInput(props: IBarcodeInput) {
                   <PowerSettingsNewIcon />
                 </IconButton>
               )}
-              {props.children}
+              {children}
             </InputAdornment>
           ),
         }}
