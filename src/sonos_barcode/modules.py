@@ -23,7 +23,7 @@ def get_status(zp: SoCo):
         "duration": track["duration"],
         "volume": zp.volume,
         "group_volume": zp.group.volume,
-        "members": len(zp.group.members)
+        "members": len(zp.group.members),
     }
 
 

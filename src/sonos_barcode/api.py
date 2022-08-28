@@ -10,6 +10,8 @@ from fastapi_socketio import SocketManager
 from pydantic import BaseModel
 from soco import SoCo
 from soco.music_library import MusicLibrary
+from starlette.responses import RedirectResponse
+from starlette.staticfiles import StaticFiles
 from sqlalchemy.orm import Session
 
 from .settings import settings
@@ -117,7 +119,7 @@ def update_status(status: schema.StatusChange) -> schema.Status:
 
     if status.volume:
         zone_player.volume = status.volume
-    
+
     if status.group_volume:
         zone_player.group.volume = status.group_volume
 
@@ -180,4 +182,12 @@ def get_barcode(barcode: str, db: Session = Depends(get_db)) -> schema.EANAlbum:
         raise HTTPException(status_code=404, detail="Barcode not found")
 
 
-app.include_router(router)
+app.include_router(router, prefix="/api")
+
+
+@app.get("/")
+async def index():
+    return RedirectResponse(url="/index.html")
+
+
+app.mount("/", StaticFiles(directory="dist/"), name="dist")

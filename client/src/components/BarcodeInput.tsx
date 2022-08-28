@@ -4,8 +4,9 @@ import { Box } from "@mui/system";
 import { TextField, IconButton, InputAdornment } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import PowerSettingsNewIcon from "@mui/icons-material/PowerSettingsNew";
+import config from "../config";
 
-const socket = io("http://localhost:8001", {
+const socket = io(config.baseUrl.replace("/api", ""), {
   path: "/ws/socket.io",
 });
 

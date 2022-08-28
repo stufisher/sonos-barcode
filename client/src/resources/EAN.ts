@@ -1,4 +1,5 @@
 import { Resource } from "@rest-hooks/rest";
+import config from "../config";
 
 export class EANResource extends Resource {
   barcode: string;
@@ -11,5 +12,5 @@ export class EANResource extends Resource {
   pk() {
     return this.barcode;
   }
-  static urlRoot = "http://127.0.0.1:8001/barcode";
+  static urlRoot = `${config.baseUrl}/barcode`;
 }

@@ -1,4 +1,5 @@
 import { Resource } from "@rest-hooks/rest";
+import config from "../config";
 
 export class AlbumsResource extends Resource {
   readonly item_id: string;
@@ -14,5 +15,5 @@ export class AlbumsResource extends Resource {
   pk() {
     return this.item_id;
   }
-  static urlRoot = "http://127.0.0.1:8001/albums";
+  static urlRoot = `${config.baseUrl}/albums`;
 }
