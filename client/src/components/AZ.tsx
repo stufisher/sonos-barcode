@@ -3,7 +3,7 @@ import { Box, Stack } from "@mui/system";
 import { useState } from "react";
 
 interface IAZ {
- onChange: (az: string) => void;
+  onChange: (az: string) => void;
 }
 
 export default function AZ(props: IAZ) {
