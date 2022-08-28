@@ -1,3 +1,4 @@
+import os
 import random
 import string
 from typing import Optional, Generic, TypeVar, List
@@ -190,4 +191,4 @@ async def index():
     return RedirectResponse(url="/index.html")
 
 
-app.mount("/", StaticFiles(directory="dist/"), name="dist")
+app.mount("/", StaticFiles(directory=f"{os.path.dirname(__file__)}/dist/"), name="dist")
