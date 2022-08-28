@@ -128,6 +128,12 @@ def get_albums(artist: str) -> Paged[schema.Album]:
     return {"total": len(albums), "results": [album.to_dict() for album in albums]}
 
 
+@router.post("/albums")
+def play_album(album: schema.PlayAlbum) -> schema.PlayAlbum:
+    crud.play_album(zone_player, music_library, album.item_id)
+    return {"item_id": album.item_id}
+
+
 @router.post("/barcode", response_model=schema.EANAlbum)
 def save_barcode(
     ean: schema.EANAlbumNew, db: Session = Depends(get_db)

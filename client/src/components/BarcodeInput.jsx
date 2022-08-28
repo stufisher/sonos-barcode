@@ -81,6 +81,7 @@ export default function BarcodeInput(props) {
                 </IconButton>
               )}
               {isConnected && <PowerSettingsNewIcon />}
+              {props.children}
             </InputAdornment>
           ),
         }}

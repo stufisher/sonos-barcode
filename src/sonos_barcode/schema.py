@@ -47,6 +47,10 @@ class EANAlbum(EANAlbumNew):
         orm_mode = True
 
 
+class PlayAlbum(BaseModel):
+    item_id: str
+
+
 class Artist(BaseModel):
     item_id: str
     title: str
