@@ -4,6 +4,8 @@ import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import PauseIcon from "@mui/icons-material/Pause";
 import SkipNextIcon from "@mui/icons-material/SkipNext";
 import SkipPreviousIcon from "@mui/icons-material/SkipPrevious";
+import JoinFullIcon from "@mui/icons-material/JoinFull";
+import JoinInnerIcon from "@mui/icons-material/JoinInner";
 
 import { StatusResource } from "../resources/SonosStatus";
 
@@ -28,42 +30,49 @@ export default function Status(props: IStatus) {
         <Grid item xs={7}>
           <List>
             <ListItem>
-              {status.player_name} ({status.coordinator_name})
+              {status.player_name}
+              {status.coordinator_name !== status.player_name && (
+                <>({status.coordinator_name})</>
+              )}
             </ListItem>
             <ListItem>Title: {status.title}</ListItem>
             <ListItem>Artist: {status.artist}</ListItem>
             <ListItem>Album: {status.album}</ListItem>
-            <ListItem>
-              {status.position} / {status.duration}
-            </ListItem>
-            <ListItem>
+
+            {status.position !== "NOT_IMPLEMENTED" && (
+              <ListItem>
+                {status.position} / {status.duration}
+              </ListItem>
+            )}
+
+            <ListItem style={{ fontSize: "3rem" }}>
               <IconButton
                 size="large"
                 onClick={(e) =>
                   fetch(StatusResource.update(), {}, { previous: true })
                 }
               >
-                <SkipPreviousIcon />
+                <SkipPreviousIcon fontSize="inherit" />
               </IconButton>
 
-              {status.transport_state === "PAUSED_PLAYBACK" && (
+              {(status.transport_state === "PAUSED_PLAYBACK" || status.transport_state === "STOPPED") && (
                 <IconButton
                   size="large"
                   onClick={(e) =>
                     fetch(StatusResource.update(), {}, { play: true })
                   }
                 >
-                  <PlayArrowIcon />
+                  <PlayArrowIcon fontSize="inherit" />
                 </IconButton>
               )}
-              {status.transport_state !== "PAUSED_PLAYBACK" && (
+              {(status.transport_state !== "PAUSED_PLAYBACK" && status.transport_state !== "STOPPED") && (
                 <IconButton
                   size="large"
                   onClick={(e) =>
                     fetch(StatusResource.update(), {}, { pause: true })
                   }
                 >
-                  <PauseIcon />
+                  <PauseIcon fontSize="inherit" />
                 </IconButton>
               )}
               <IconButton
@@ -72,7 +81,26 @@ export default function Status(props: IStatus) {
                   fetch(StatusResource.update(), {}, { next: true })
                 }
               >
-                <SkipNextIcon />
+                <SkipNextIcon fontSize="inherit" />
+              </IconButton>
+
+              <IconButton
+                sx={{marginLeft: "1rem"}}
+                size="large"
+                onClick={(e) =>
+                  fetch(StatusResource.update(), {}, { isolate: true })
+                }
+              >
+                <JoinInnerIcon fontSize="inherit" />
+              </IconButton>
+
+              <IconButton
+                size="large"
+                onClick={(e) =>
+                  fetch(StatusResource.update(), {}, { join: true })
+                }
+              >
+                <JoinFullIcon fontSize="inherit" />
               </IconButton>
             </ListItem>
           </List>

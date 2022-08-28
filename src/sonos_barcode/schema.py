@@ -22,6 +22,7 @@ class Status(BaseModel):
     artist: str
     album: str
     album_art_uri: str
+    uri: str
     position: str
     duration: str
     transport_state: str
@@ -32,6 +33,8 @@ class StatusChange(BaseModel):
     pause: Optional[bool]
     previous: Optional[bool]
     next: Optional[bool]
+    isolate: Optional[bool]
+    join: Optional[bool]
 
 
 class EANAlbumNew(BaseModel):

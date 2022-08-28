@@ -1,5 +1,4 @@
 from typing import Optional, Generic, TypeVar, List
-
 import asyncio
 
 # import evdev
@@ -73,6 +72,7 @@ async def reader():
 
 T = TypeVar("T")
 
+
 class Paged(BaseModel, Generic[T]):
     """Page a model result set"""
 
@@ -104,6 +104,14 @@ def update_status(status: schema.StatusChange) -> schema.Status:
 
     if status.previous:
         zone_player.previous()
+
+    if status.isolate:
+        zone_player.unjoin()
+
+    if status.join:
+        for visible_zone in zone_player.visible_zones:
+            if visible_zone.player_name in settings.zones_to_join:
+                visible_zone.join(zone_player)
 
     return crud.get_status(zone_player)
 

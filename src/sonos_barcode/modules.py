@@ -18,6 +18,7 @@ def get_status(zp: SoCo):
         "artist": track["artist"],
         "album": track["album"],
         "album_art_uri": track["album_art"],
+        "uri": track["uri"],
         "position": track["position"],
         "duration": track["duration"],
     }
