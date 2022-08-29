@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { useSuspense } from "rest-hooks";
 import { EANResource } from "../resources/EAN";
 

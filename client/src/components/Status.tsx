@@ -9,6 +9,7 @@ import JoinInnerIcon from "@mui/icons-material/JoinInner";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import { StatusResource } from "../resources/SonosStatus";
+import noAlbumArt from "../assets/empty_album_art.png";
 
 export default function Status() {
   const status = useSuspense(StatusResource.detail(), {});
@@ -24,6 +25,10 @@ export default function Status() {
             alt={status.title}
             loading="lazy"
             style={{ padding: "0.5rem", width: "100%" }}
+            onError={({ currentTarget }) => {
+              currentTarget.onerror = null;
+              currentTarget.src = noAlbumArt;
+            }}
           />
         </Grid>
         <Grid item xs={7}>
