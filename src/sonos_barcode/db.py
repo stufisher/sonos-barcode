@@ -16,6 +16,14 @@ SessionLocal = sessionmaker(bind=engine)
 Base = declarative_base()
 
 
+def get_db():
+    db = SessionLocal()
+    try:
+        yield db
+    finally:
+        db.close()
+
+
 class Barcode(Base):
     __tablename__ = "barcode"
 

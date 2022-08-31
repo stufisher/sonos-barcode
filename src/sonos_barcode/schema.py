@@ -1,6 +1,22 @@
-from typing import Optional
+from typing import Optional, TypeVar, Generic, List
 from pydantic import BaseModel
 from pydantic.main import ModelMetaclass
+
+
+T = TypeVar("T")
+
+
+class Paged(BaseModel, Generic[T]):
+    """Page a model result set"""
+
+    total: int
+    results: List[T]
+    skip: Optional[int]
+    limit: Optional[int]
+
+    @property
+    def first(self) -> T:
+        return self.results[0]
 
 
 def paginated(model: ModelMetaclass) -> ModelMetaclass:

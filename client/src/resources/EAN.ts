@@ -1,11 +1,11 @@
-import { Resource } from "@rest-hooks/rest";
+import { Resource, EndpointExtraOptions } from "@rest-hooks/rest";
 import config from "../config";
 
 export class EANResource extends Resource {
   barcode: string;
   entity: string;
 
-  static getRequestOptions() {
+  static getEndpointExtra(): EndpointExtraOptions {
     return { dataExpiryLength: 1000, invalidIfStale: true };
   }
 
