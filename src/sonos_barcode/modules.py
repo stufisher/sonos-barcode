@@ -9,11 +9,15 @@ from .db import Barcode
 def get_status(zp: SoCo):
     coordinator = zp.group.coordinator
     track = coordinator.get_current_track_info()
+    queue = coordinator.get_queue(full_album_art_uri=True)
+    queue_items = [item.to_dict() for item in queue]
     transport = zp.get_current_transport_info()
     return {
         "transport_state": transport["current_transport_state"],
         "player_name": zp.player_name,
         "coordinator_name": coordinator.player_name,
+        "queue": queue_items,
+        "playlist_position": track["playlist_position"],
         "title": track["title"],
         "artist": track["artist"],
         "album": track["album"],

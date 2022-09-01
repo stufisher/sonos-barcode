@@ -48,10 +48,16 @@ export default function Main() {
     );
   }
 
+  const selectIconColour: Record<string, string> = {};
+  if (selectAlbum) selectIconColour.color = "primary";
+
   return (
     <div>
       <BarcodeInput onChange={setCurrentBarcode} barcode={currentBarcode}>
-        <IconButton onClick={() => setSelectAlbum(!selectAlbum)}>
+        <IconButton
+          onClick={() => setSelectAlbum(!selectAlbum)}
+          {...selectIconColour}
+        >
           <AlbumIcon />
         </IconButton>
         <IconButton onClick={() => loadAlbum("random")}>

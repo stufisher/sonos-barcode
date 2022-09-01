@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useSuspense, useSubscription, useController } from "rest-hooks";
 import { Card, Grid, IconButton, List, ListItem, Slider } from "@mui/material";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
@@ -8,13 +9,20 @@ import JoinFullIcon from "@mui/icons-material/JoinFull";
 import JoinInnerIcon from "@mui/icons-material/JoinInner";
 import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
+import QueueMusicIcon from "@mui/icons-material/QueueMusic";
+
 import { StatusResource } from "../resources/SonosStatus";
+import Queue from "./Queue";
 import noAlbumArt from "../assets/empty_album_art.png";
 
 export default function Status() {
+  const [showQueue, setShowQueue] = useState<boolean>(false);
   const status = useSuspense(StatusResource.detail(), {});
   const { fetch } = useController();
   useSubscription(StatusResource.detail(), {});
+
+  const queueIconColour: Record<string, string> = {};
+  if (showQueue) queueIconColour.color = "primary";
 
   return (
     <Card style={{ marginBottom: "1rem" }}>
@@ -32,6 +40,12 @@ export default function Status() {
           />
         </Grid>
         <Grid item xs={7}>
+          <Queue
+            items={status.queue}
+            show={showQueue}
+            onClose={() => setShowQueue(false)}
+            currentItem={status.playlist_position}
+          />
           <List>
             <ListItem>
               {status.player_name}
@@ -89,6 +103,14 @@ export default function Status() {
                 }
               >
                 <SkipNextIcon fontSize="inherit" />
+              </IconButton>
+
+              <IconButton
+                size="large"
+                onClick={() => setShowQueue(!showQueue)}
+                {...queueIconColour}
+              >
+                <QueueMusicIcon fontSize="inherit" />
               </IconButton>
 
               <IconButton

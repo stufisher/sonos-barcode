@@ -31,6 +31,15 @@ def paginated(model: ModelMetaclass) -> ModelMetaclass:
     return PaginatedModel
 
 
+class QueueItem(BaseModel):
+    item_id: str
+    creator: str
+    title: str
+    album: str
+    album_art_uri: str
+    original_track_number: int
+
+
 class Status(BaseModel):
     player_name: str
     coordinator_name: str
@@ -38,6 +47,7 @@ class Status(BaseModel):
     artist: str
     album: str
     album_art_uri: str
+    playlist_position: int
     uri: str
     position: str
     duration: str
@@ -45,6 +55,7 @@ class Status(BaseModel):
     volume: int
     group_volume: int
     members: int
+    queue: List[QueueItem]
 
 
 class StatusChange(BaseModel):
