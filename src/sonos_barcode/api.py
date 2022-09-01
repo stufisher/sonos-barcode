@@ -27,8 +27,7 @@ if settings.cors:
 
 # https://gist.github.com/JoachimL/1629f701fdb38427091710fc0caef67d
 # https://github.com/tiangolo/fastapi/issues/2713
-
-reader = HID(app)
+reader = HID(app, int(settings.vendor_id), int(settings.product_id))
 reader.start()
 
 

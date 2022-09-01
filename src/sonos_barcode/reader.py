@@ -9,7 +9,6 @@ try:
 except ImportError:
     hid = None
 
-# from . import settings
 
 HID_LOOKUP = {
     30: 1,
@@ -60,13 +59,23 @@ class Reader(threading.Thread):
 
 
 class HID(Reader):
-    def run(self):
-        hid_device = hid.device()
-        hid_device.open(0x2010, 0x7638)
+    def __init__(self, app: ASGIApp, vendor_id: bytes, product_id: bytes):
+        super().__init__(app)
+        self._vendor_id = vendor_id
+        self._product_id = product_id
 
-        print(f"Manufacturer: {hid_device.get_manufacturer_string()}")
-        print(f"Product: {hid_device.get_product_string()}")
-        print(f"Serial No: {hid_device.get_serial_number_string()}")
+    def run(self):
+        try:
+            hid_device = hid.device()
+            hid_device.open(self._vendor_id, self._product_id)
+            print("Reader: Started")
+        except OSError:
+            print("Reader: Couldn't open device", self._vendor_id, self._product_id)
+            return
+
+        print(f"  Manufacturer: {hid_device.get_manufacturer_string()}")
+        print(f"  Product: {hid_device.get_product_string()}")
+        print(f"  Serial No: {hid_device.get_serial_number_string()}")
 
         hid_device.set_nonblocking(1)
         hid_device.write([0, 63, 35, 35] + [0] * 61)
@@ -103,7 +112,7 @@ class HID(Reader):
 
 
 if __name__ == "__main__":
-    reader = HID(None)
+    reader = HID(None, 0x2010, 0x7638)
     try:
         reader.start()
     except KeyboardInterrupt:
