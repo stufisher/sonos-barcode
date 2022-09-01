@@ -1,15 +1,6 @@
 import { Resource, EndpointExtraOptions } from "@rest-hooks/rest";
 import config from "../config";
 
-export interface QueueItem {
-  item_id: string;
-  creator: string;
-  title: string;
-  album: string;
-  album_art_uri: string;
-  original_track_number: number;
-}
-
 export class StatusResource extends Resource {
   player_name: string;
   coordinator_name: string;
@@ -24,7 +15,6 @@ export class StatusResource extends Resource {
   volume: number;
   group_volume: number;
   members: number;
-  queue: Array<QueueItem>;
 
   static getEndpointExtra(): EndpointExtraOptions {
     return {
