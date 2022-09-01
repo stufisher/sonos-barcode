@@ -25,16 +25,16 @@ def get_status() -> schema.Status:
 @router.put("/status", response_model=schema.Status)
 def update_status(status: schema.StatusChange) -> schema.Status:
     if status.play:
-        zone_player.play()
+        zone_player.group.coordinator.play()
 
     if status.pause:
-        zone_player.pause()
+        zone_player.group.coordinator.pause()
 
     if status.next:
-        zone_player.next()
+        zone_player.group.coordinator.next()
 
     if status.previous:
-        zone_player.previous()
+        zone_player.group.coordinator.previous()
 
     if status.isolate:
         zone_player.unjoin()
