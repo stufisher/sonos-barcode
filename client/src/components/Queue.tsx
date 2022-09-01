@@ -40,7 +40,7 @@ export default function Queue({
             {items.map((item, itemNumber) => (
               <ListItem
                 key={item.item_id}
-                selected={itemNumber === currentItem}
+                selected={itemNumber + 1 === currentItem}
               >
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={item.album_art_uri} />
