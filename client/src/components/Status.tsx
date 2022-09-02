@@ -41,7 +41,6 @@ export default function Status() {
         </Grid>
         <Grid item xs={7}>
           <Queue
-            items={status.queue}
             show={showQueue}
             onClose={() => setShowQueue(false)}
             currentItem={status.playlist_position}

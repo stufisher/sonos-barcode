@@ -55,7 +55,6 @@ class Status(BaseModel):
     volume: int
     group_volume: int
     members: int
-    queue: List[QueueItem]
 
 
 class StatusChange(BaseModel):

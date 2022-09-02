@@ -1,3 +1,5 @@
+from typing import List
+
 from sqlalchemy.orm import Session
 from soco import SoCo
 from soco.music_library import MusicLibrary
@@ -6,17 +8,15 @@ from soco.data_structures import DidlItem
 from .db import Barcode
 
 
-def get_status(zp: SoCo):
+def get_status(zp: SoCo) -> dict:
     coordinator = zp.group.coordinator
     track = coordinator.get_current_track_info()
-    queue = coordinator.get_queue(full_album_art_uri=True)
-    queue_items = [item.to_dict() for item in queue]
     transport = zp.get_current_transport_info()
+
     return {
         "transport_state": transport["current_transport_state"],
         "player_name": zp.player_name,
         "coordinator_name": coordinator.player_name,
-        "queue": queue_items,
         "playlist_position": track["playlist_position"],
         "title": track["title"],
         "artist": track["artist"],
@@ -29,6 +29,12 @@ def get_status(zp: SoCo):
         "group_volume": zp.group.volume,
         "members": len(zp.group.members),
     }
+
+
+def get_queue(zp: SoCo) -> List[dict]:
+    coordinator = zp.group.coordinator
+    queue = coordinator.get_queue(full_album_art_uri=True)
+    return [item.to_dict() for item in queue]
 
 
 def get_barcode(db: Session, barcode: str) -> Barcode:

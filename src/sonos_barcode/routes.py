@@ -53,6 +53,12 @@ def update_status(status: schema.StatusChange) -> schema.Status:
     return crud.get_status(zone_player)
 
 
+@router.get("/queue", response_model=schema.paginated(schema.QueueItem))
+def get_queue() -> schema.Paged[schema.QueueItem]:
+    queue = crud.get_queue(zone_player)
+    return {"total": len(queue), "results": queue}
+
+
 @router.get("/artists", response_model=schema.paginated(schema.Artist))
 def get_artists(search_term: str) -> schema.Paged[schema.Artist]:
     artists = music_library.get_album_artists(
