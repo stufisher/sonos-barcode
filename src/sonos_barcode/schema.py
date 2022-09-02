@@ -1,3 +1,4 @@
+from enum import Enum
 from typing import Optional, TypeVar, Generic, List
 from pydantic import BaseModel
 from pydantic.main import ModelMetaclass
@@ -40,6 +41,13 @@ class QueueItem(BaseModel):
     original_track_number: int
 
 
+class PlayMode(str, Enum):
+    LINEIN = "LINEIN"
+    QUEUE = "QUEUE"
+    RADIO = "RADIO"
+    TV = "TV"
+
+
 class Status(BaseModel):
     player_name: str
     coordinator_name: str
@@ -55,6 +63,7 @@ class Status(BaseModel):
     volume: int
     group_volume: int
     members: int
+    play_mode: PlayMode
 
 
 class StatusChange(BaseModel):

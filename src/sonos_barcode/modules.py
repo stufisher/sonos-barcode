@@ -13,6 +13,15 @@ def get_status(zp: SoCo) -> dict:
     track = coordinator.get_current_track_info()
     transport = zp.get_current_transport_info()
 
+    if coordinator.is_playing_radio:
+        play_mode = "RADIO"
+    elif coordinator.is_playing_line_in:
+        play_mode = "LINEIN"
+    elif coordinator.is_playing_tv:
+        play_mode = "TV"
+    else:
+        play_mode = "QUEUE"
+
     return {
         "transport_state": transport["current_transport_state"],
         "player_name": zp.player_name,
@@ -28,6 +37,7 @@ def get_status(zp: SoCo) -> dict:
         "volume": zp.volume,
         "group_volume": zp.group.volume,
         "members": len(zp.group.members),
+        "play_mode": play_mode,
     }
 
 

@@ -12,7 +12,13 @@ import { Suspense } from "react";
 import { useSuspense, useSubscription } from "rest-hooks";
 import { QueueResource } from "../resources/SonosQueue";
 
-function QueueList({ currentItem }: { currentItem?: number }) {
+function QueueList({
+  currentItem,
+  enabled,
+}: {
+  currentItem?: number;
+  enabled: boolean;
+}) {
   const queue = useSuspense(QueueResource.list(), {});
   useSubscription(QueueResource.list(), {});
 
@@ -20,7 +26,9 @@ function QueueList({ currentItem }: { currentItem?: number }) {
     <List
       subheader={
         <ListSubheader disableSticky={true}>
-          Queue ({queue.total})
+          <>
+            Queue ({queue.total}){!enabled && <span> [Disabled]</span>}
+          </>
         </ListSubheader>
       }
     >
@@ -50,10 +58,12 @@ export default function Queue({
   show,
   onClose,
   currentItem,
+  enabled,
 }: {
   show: boolean;
   onClose: () => void;
   currentItem?: number;
+  enabled: boolean;
 }) {
   return (
     <>
@@ -65,7 +75,7 @@ export default function Queue({
           onClose={() => onClose()}
         >
           <Suspense fallback={<p>Loading Queue...</p>}>
-            <QueueList currentItem={currentItem} />
+            <QueueList currentItem={currentItem} enabled={enabled} />
           </Suspense>
         </Popover>
       )}

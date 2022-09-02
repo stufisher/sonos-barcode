@@ -11,9 +11,11 @@ import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 
-import { StatusResource } from "../resources/SonosStatus";
+import { StatusResource, PlayMode } from "../resources/SonosStatus";
 import Queue from "./Queue";
 import noAlbumArt from "../assets/empty_album_art.png";
+import lineInAlbumArt from "../assets/linein-album-art.png";
+import tvAlbumArt from "../assets/tv-album-art.png";
 
 export default function Status() {
   const [showQueue, setShowQueue] = useState<boolean>(false);
@@ -24,12 +26,19 @@ export default function Status() {
   const queueIconColour: Record<string, string> = {};
   if (showQueue) queueIconColour.color = "primary";
 
+  const albumArtUri =
+    status.play_mode === PlayMode.LINEIN
+      ? lineInAlbumArt
+      : status.play_mode === PlayMode.TV
+      ? tvAlbumArt
+      : status.album_art_uri;
+
   return (
     <Card style={{ marginBottom: "1rem" }}>
       <Grid container>
         <Grid item xs={5}>
           <img
-            src={status.album_art_uri}
+            src={albumArtUri}
             alt={status.title}
             loading="lazy"
             style={{ padding: "0.5rem", width: "100%" }}
@@ -44,6 +53,7 @@ export default function Status() {
             show={showQueue}
             onClose={() => setShowQueue(false)}
             currentItem={status.playlist_position}
+            enabled={status.play_mode === PlayMode.QUEUE}
           />
           <List>
             <ListItem>
