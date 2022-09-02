@@ -33,6 +33,9 @@ export default function Status() {
       ? tvAlbumArt
       : status.album_art_uri;
 
+  const hasDetails =
+    status.play_mode === PlayMode.RADIO || status.play_mode === PlayMode.QUEUE;
+
   return (
     <Card style={{ marginBottom: "1rem" }}>
       <Grid container>
@@ -63,10 +66,18 @@ export default function Status() {
               )}
               {status.members > 1 && <> +{status.members - 1}</>}
             </ListItem>
-            <ListItem>Title: {status.title}</ListItem>
-            <ListItem>Artist: {status.artist}</ListItem>
-            <ListItem>Album: {status.album}</ListItem>
 
+            {hasDetails && (
+              <>
+                <ListItem>Title: {status.title}</ListItem>
+                <ListItem>Artist: {status.artist}</ListItem>
+                <ListItem>Album: {status.album}</ListItem>
+              </>
+            )}
+            {status.play_mode === PlayMode.LINEIN && (
+              <ListItem>Line-In</ListItem>
+            )}
+            {status.play_mode === PlayMode.TV && <ListItem>TV</ListItem>}
             {status.position !== "NOT_IMPLEMENTED" && (
               <ListItem>
                 {status.position} / {status.duration}

@@ -27,13 +27,22 @@ function QueueList({
       subheader={
         <ListSubheader disableSticky={true}>
           <>
-            Queue ({queue.total}){!enabled && <span> [Disabled]</span>}
+            Queue ({queue.total})
+            {!enabled && (
+              <Typography variant="overline" display="block" gutterBottom>
+                Queue Not In Use
+              </Typography>
+            )}
           </>
         </ListSubheader>
       }
     >
       {queue.results.map((item, itemNumber) => (
-        <ListItem key={item.item_id} selected={itemNumber + 1 === currentItem}>
+        <ListItem
+          key={item.item_id}
+          selected={itemNumber + 1 === currentItem}
+          disabled={!enabled}
+        >
           <ListItemAvatar>
             <Avatar alt="Remy Sharp" src={item.album_art_uri} />
           </ListItemAvatar>
