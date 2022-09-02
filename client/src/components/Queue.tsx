@@ -12,7 +12,13 @@ import { Suspense } from "react";
 import { useSuspense, useSubscription } from "rest-hooks";
 import { QueueResource } from "../resources/SonosQueue";
 
-function QueueList({ currentItem }: { currentItem?: number }) {
+function QueueList({
+  currentItem,
+  enabled,
+}: {
+  currentItem?: number;
+  enabled: boolean;
+}) {
   const queue = useSuspense(QueueResource.list(), {});
   useSubscription(QueueResource.list(), {});
 
@@ -20,23 +26,32 @@ function QueueList({ currentItem }: { currentItem?: number }) {
     <List
       subheader={
         <ListSubheader disableSticky={true}>
-          Queue ({queue.total})
+          <>
+            Queue ({queue.total})
+            {!enabled && (
+              <Typography variant="overline" display="block">
+                Queue Not In Use
+              </Typography>
+            )}
+          </>
         </ListSubheader>
       }
     >
       {queue.results.map((item, itemNumber) => (
-        <ListItem key={item.item_id} selected={itemNumber + 1 === currentItem}>
+        <ListItem
+          key={item.item_id}
+          selected={itemNumber + 1 === currentItem}
+          disabled={!enabled}
+        >
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src={item.album_art_uri} />
+            <Avatar alt={item.album} src={item.album_art_uri} />
           </ListItemAvatar>
           <ListItemText
             primary={item.title}
             secondary={
               <>
                 <div>{item.creator}</div>
-                <Typography variant="caption" gutterBottom>
-                  {item.album}
-                </Typography>
+                <Typography variant="caption">{item.album}</Typography>
               </>
             }
           />
@@ -50,10 +65,12 @@ export default function Queue({
   show,
   onClose,
   currentItem,
+  enabled,
 }: {
   show: boolean;
   onClose: () => void;
   currentItem?: number;
+  enabled: boolean;
 }) {
   return (
     <>
@@ -65,7 +82,7 @@ export default function Queue({
           onClose={() => onClose()}
         >
           <Suspense fallback={<p>Loading Queue...</p>}>
-            <QueueList currentItem={currentItem} />
+            <QueueList currentItem={currentItem} enabled={enabled} />
           </Suspense>
         </Popover>
       )}

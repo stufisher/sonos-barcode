@@ -11,9 +11,11 @@ import VolumeDown from "@mui/icons-material/VolumeDown";
 import VolumeUp from "@mui/icons-material/VolumeUp";
 import QueueMusicIcon from "@mui/icons-material/QueueMusic";
 
-import { StatusResource } from "../resources/SonosStatus";
+import { StatusResource, PlayMode } from "../resources/SonosStatus";
 import Queue from "./Queue";
 import noAlbumArt from "../assets/empty_album_art.png";
+import lineInAlbumArt from "../assets/linein-album-art.png";
+import tvAlbumArt from "../assets/tv-album-art.png";
 
 export default function Status() {
   const [showQueue, setShowQueue] = useState<boolean>(false);
@@ -24,12 +26,22 @@ export default function Status() {
   const queueIconColour: Record<string, string> = {};
   if (showQueue) queueIconColour.color = "primary";
 
+  const albumArtUri =
+    status.play_mode === PlayMode.LINEIN
+      ? lineInAlbumArt
+      : status.play_mode === PlayMode.TV
+      ? tvAlbumArt
+      : status.album_art_uri;
+
+  const hasDetails =
+    status.play_mode === PlayMode.RADIO || status.play_mode === PlayMode.QUEUE;
+
   return (
     <Card style={{ marginBottom: "1rem" }}>
       <Grid container>
         <Grid item xs={5}>
           <img
-            src={status.album_art_uri}
+            src={albumArtUri}
             alt={status.title}
             loading="lazy"
             style={{ padding: "0.5rem", width: "100%" }}
@@ -44,6 +56,7 @@ export default function Status() {
             show={showQueue}
             onClose={() => setShowQueue(false)}
             currentItem={status.playlist_position}
+            enabled={status.play_mode === PlayMode.QUEUE}
           />
           <List>
             <ListItem>
@@ -53,10 +66,18 @@ export default function Status() {
               )}
               {status.members > 1 && <> +{status.members - 1}</>}
             </ListItem>
-            <ListItem>Title: {status.title}</ListItem>
-            <ListItem>Artist: {status.artist}</ListItem>
-            <ListItem>Album: {status.album}</ListItem>
 
+            {hasDetails && (
+              <>
+                <ListItem>Title: {status.title}</ListItem>
+                <ListItem>Artist: {status.artist}</ListItem>
+                <ListItem>Album: {status.album}</ListItem>
+              </>
+            )}
+            {status.play_mode === PlayMode.LINEIN && (
+              <ListItem>Line-In</ListItem>
+            )}
+            {status.play_mode === PlayMode.TV && <ListItem>TV</ListItem>}
             {status.position !== "NOT_IMPLEMENTED" && (
               <ListItem>
                 {status.position} / {status.duration}

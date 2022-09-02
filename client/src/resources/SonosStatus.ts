@@ -1,6 +1,13 @@
 import { Resource, EndpointExtraOptions } from "@rest-hooks/rest";
 import config from "../config";
 
+export enum PlayMode {
+  QUEUE = "QUEUE",
+  LINEIN = "LINEIN",
+  RADIO = "RADIO",
+  TV = "TV",
+}
+
 export class StatusResource extends Resource {
   player_name: string;
   coordinator_name: string;
@@ -15,6 +22,7 @@ export class StatusResource extends Resource {
   volume: number;
   group_volume: number;
   members: number;
+  play_mode: PlayMode;
 
   static getEndpointExtra(): EndpointExtraOptions {
     return {
