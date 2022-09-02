@@ -29,7 +29,7 @@ function QueueList({
           <>
             Queue ({queue.total})
             {!enabled && (
-              <Typography variant="overline" display="block" gutterBottom>
+              <Typography variant="overline" display="block">
                 Queue Not In Use
               </Typography>
             )}
@@ -44,16 +44,14 @@ function QueueList({
           disabled={!enabled}
         >
           <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src={item.album_art_uri} />
+            <Avatar alt={item.album} src={item.album_art_uri} />
           </ListItemAvatar>
           <ListItemText
             primary={item.title}
             secondary={
               <>
                 <div>{item.creator}</div>
-                <Typography variant="caption" gutterBottom>
-                  {item.album}
-                </Typography>
+                <Typography variant="caption">{item.album}</Typography>
               </>
             }
           />
