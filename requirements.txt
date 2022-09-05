@@ -1,9 +1,9 @@
-evdev
 fastapi
 fastapi-socketio
+hidapi
 mysql-connector-python==8.0.29
 pydantic[dotenv]
 soco
-sqlalacchemy
+SQLAlchemy
 uvicorn
 uvicorn[standard]
