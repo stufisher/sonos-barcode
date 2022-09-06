@@ -1,4 +1,5 @@
 from typing import List
+import urllib.parse
 
 from sqlalchemy.orm import Session
 from soco import SoCo
@@ -6,6 +7,7 @@ from soco.music_library import MusicLibrary
 from soco.data_structures import DidlItem
 
 from .db import Barcode
+from .settings import settings
 
 
 def get_status(zp: SoCo) -> dict:
@@ -22,6 +24,14 @@ def get_status(zp: SoCo) -> dict:
     else:
         play_mode = "QUEUE"
 
+    media = zp.get_current_media_info()
+    if media["uri"].startswith("x-sonosapi-stream"):
+        album_art_uri = f"http://{settings.zone_player}:1400/getaa?s=1&u={urllib.parse.quote(media['uri'], safe='')}"
+        album = media["channel"]
+    else:
+        album = track["album"]
+        album_art_uri = track["album_art"]
+
     return {
         "transport_state": transport["current_transport_state"],
         "player_name": zp.player_name,
@@ -29,8 +39,8 @@ def get_status(zp: SoCo) -> dict:
         "playlist_position": track["playlist_position"],
         "title": track["title"],
         "artist": track["artist"],
-        "album": track["album"],
-        "album_art_uri": track["album_art"],
+        "album": album,
+        "album_art_uri": album_art_uri,
         "uri": track["uri"],
         "position": track["position"],
         "duration": track["duration"],
