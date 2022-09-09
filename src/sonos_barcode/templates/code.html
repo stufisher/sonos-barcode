@@ -1,0 +1,8 @@
+<div class="code" style="width: {{ width }}%;">
+  <figure>
+    <img src="data:image/jpeg;base64,{{ qr_base64 }}" alt="{{ text }}" />
+    {% if label %}
+    <figcaption>{{ text }}</figcaption>
+    {% endif %}
+  </figure>
+</div>

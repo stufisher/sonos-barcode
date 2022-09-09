@@ -1,8 +1,10 @@
 fastapi
 fastapi-socketio
 hidapi
+jinja2
 mysql-connector-python==8.0.29
 pydantic[dotenv]
+qrcode
 soco
 SQLAlchemy
 uvicorn
