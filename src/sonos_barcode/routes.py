@@ -2,6 +2,7 @@ import random
 import string
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi.responses import HTMLResponse
 from soco import SoCo
 from soco.music_library import MusicLibrary
 from sqlalchemy.orm import Session
@@ -10,6 +11,7 @@ from .settings import settings
 from .db import get_db
 from . import schema
 from . import modules as crud
+from . import qr
 
 
 router = APIRouter()
@@ -113,3 +115,18 @@ def get_barcode(barcode: str, db: Session = Depends(get_db)) -> schema.EANAlbum:
         return barcode
     else:
         raise HTTPException(status_code=404, detail="Barcode not found")
+
+
+@router.get("/generate", response_class=HTMLResponse)
+def generate_barcodes(
+    rows: int = 14,
+    per_row: int = 8,
+    offset: int = 0,
+    label: bool = True,
+    template: qr.PageTemplates = "single",
+) -> HTMLResponse:
+    page = qr.generate_page(
+        "sb", rows=rows, per_row=per_row, offset=offset, label=label, template=template
+    )
+
+    return HTMLResponse(page)

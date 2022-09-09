@@ -1,0 +1,49 @@
+@page {
+  size: A4;
+  margin: 0;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html,
+body {
+  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  line-height: 1;
+  background: rgb(204,204,204); 
+}
+
+.page {
+  margin: auto;
+  width: 210mm;
+  height: 297mm;
+  overflow: hidden;
+  margin-bottom: 0.5cm;
+  background: #fff;
+  box-shadow: 0 0 0.5cm rgba(0,0,0,0.5);
+}
+
+.code {
+  display: inline-block;
+  padding: 5px;
+}
+
+.code img {
+  width: 100%;
+}
+
+.code figcaption {
+  text-align: center;
+  text-rendering: geometricPrecision;
+  font-size: 12px;
+}
+
+.a5-col {
+  margin: 12mm 6mm;
+  column-count: 2;
+  column-gap: 4mm;
+}
