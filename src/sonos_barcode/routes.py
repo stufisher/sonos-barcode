@@ -21,11 +21,13 @@ music_library = MusicLibrary(zone_player)
 
 @router.get("/status", response_model=schema.Status)
 def get_status() -> schema.Status:
+    """Get the current zone player status"""
     return crud.get_status(zone_player)
 
 
 @router.put("/status", response_model=schema.Status)
 def update_status(status: schema.StatusChange) -> schema.Status:
+    """Change a property on the current zone player"""
     if status.play:
         zone_player.group.coordinator.play()
 
@@ -57,12 +59,14 @@ def update_status(status: schema.StatusChange) -> schema.Status:
 
 @router.get("/queue", response_model=schema.paginated(schema.QueueItem))
 def get_queue() -> schema.Paged[schema.QueueItem]:
+    """Get the current zone player's queue"""
     queue = crud.get_queue(zone_player)
     return {"total": len(queue), "results": queue}
 
 
 @router.get("/artists", response_model=schema.paginated(schema.Artist))
 def get_artists(search_term: str) -> schema.Paged[schema.Artist]:
+    """Get a list of artists from the sonos library"""
     artists = music_library.get_album_artists(
         search_term=search_term, complete_result=True
     )
@@ -78,12 +82,14 @@ def get_artists(search_term: str) -> schema.Paged[schema.Artist]:
 
 @router.get("/albums", response_model=schema.paginated(schema.Album))
 def get_albums(artist: str) -> schema.Paged[schema.Album]:
+    """Get a list of albums for the selected artist"""
     albums = music_library.get_albums_for_artist(artist, full_album_art_uri=True)
     return {"total": len(albums), "results": [album.to_dict() for album in albums]}
 
 
 @router.post("/albums")
 def play_album(album: schema.PlayAlbum) -> schema.PlayAlbum:
+    """Play an album based on its `item_id`"""
     if album.item_id == "random":
         letter = random.choice(string.ascii_lowercase)
         albums = music_library.get_albums(search_term=letter, complete_result=True)
@@ -101,6 +107,7 @@ def play_album(album: schema.PlayAlbum) -> schema.PlayAlbum:
 def save_barcode(
     ean: schema.EANAlbumNew, db: Session = Depends(get_db)
 ) -> schema.EANAlbum:
+    """Save a barcode against an album `item_id` and play the album"""
     barcode = crud.save_barcode(db, **ean.dict())
     if barcode:
         crud.play_album(zone_player, music_library, barcode.entity)
@@ -109,6 +116,7 @@ def save_barcode(
 
 @router.get("/barcode/{barcode}", response_model=schema.EANAlbum)
 def get_barcode(barcode: str, db: Session = Depends(get_db)) -> schema.EANAlbum:
+    """Look up a barcode and if found play the album"""
     barcode = crud.get_barcode(db, barcode)
     if barcode:
         crud.play_album(zone_player, music_library, barcode.entity)
@@ -125,6 +133,7 @@ def generate_barcodes(
     label: bool = True,
     template: qr.PageTemplates = "single",
 ) -> HTMLResponse:
+    """Generate a page of unique qr codes"""
     page = qr.generate_page(
         "sb", rows=rows, per_row=per_row, offset=offset, label=label, template=template
     )
