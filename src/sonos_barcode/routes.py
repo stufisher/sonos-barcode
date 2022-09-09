@@ -1,5 +1,6 @@
 import random
 import string
+import unicodedata as ud
 
 from fastapi import APIRouter, Depends, HTTPException
 from fastapi.responses import HTMLResponse
@@ -75,7 +76,11 @@ def get_artists(search_term: str) -> schema.Paged[schema.Artist]:
         "results": [
             artist.to_dict()
             for artist in artists
-            if artist.title.lower().startswith(search_term.lower())
+            if ud.normalize("NFKD", artist.title)
+            .encode("ascii", "ignore")
+            .decode("utf8")
+            .lower()
+            .startswith(search_term.lower())
         ],
     }
 
