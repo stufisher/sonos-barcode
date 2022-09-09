@@ -38,7 +38,7 @@ class QueueItem(BaseModel):
     title: str
     album: str
     album_art_uri: str
-    original_track_number: int
+    original_track_number: Optional[int]
 
 
 class PlayMode(str, Enum):
