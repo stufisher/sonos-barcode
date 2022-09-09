@@ -78,7 +78,7 @@ class StatusChange(BaseModel):
 
 
 class EANAlbumNew(BaseModel):
-    barcode: int
+    barcode: str
     entity: str
 
 
